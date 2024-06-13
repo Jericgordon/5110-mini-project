@@ -1,5 +1,8 @@
-import pandas as pd
-import sqlite3
+import sqlite3 as sql #for reading sql db
+import pandas as pd #for everything else
+
+
+
 
 # auto detects filetype and returns a pandas df converted of that file
 def read_file(file_name:str,**kwargs):
@@ -18,7 +21,7 @@ def read_file(file_name:str,**kwargs):
             return df
         case "db":
             try:
-                conn = sqlite3.connect(file_name)
+                conn = sql.connect(file_name)
                 df = pd.read_sql(f'SELECT * FROM {kwargs["table_name"]}',conn)
                 return df
             except KeyError:
@@ -35,13 +38,14 @@ def read_file(file_name:str,**kwargs):
 
 
 def main():
+    #This is just some preliminary testing. Feel free to move around or ignore
     df = read_file("./Data/noisy_data.db",table_name = "noisy_table")
     df = read_file("./Data/noisy_data.csv")
     #print(df.head())
     df = read_file("./Data/noisy_data.json")
     #print(df.head())
     df = read_file("./Data/api_noisy_data.json")
-    print(df.head)
+ 
     df = read_file("./Data/noisy_data.xlsx")
 
 
