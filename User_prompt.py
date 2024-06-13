@@ -19,7 +19,9 @@ def read_file(file_name:str):
             print("xlsx")
     
        
-
+def read_json(file_name,str):
+    read_j = pd.read_json(file_name)
+    return read_j 
 
 def main():
     read_file("file.json")
