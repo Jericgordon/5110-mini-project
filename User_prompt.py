@@ -1,32 +1,50 @@
-
+import pandas as pd
+import sqlite3
 
 # auto detects filetype and returns a pandas df converted of that file
-def read_file(file_name:str):
-    valid_file_formats = ["json","csv"]
-    file_extension = file_name.split(".")[-1]
-    if file_extension not in valid_file_formats:
+def read_file(file_name:str,**kwargs):
+    valid_file_formats = ["json","csv","xlsx","db"]
+    file_extension = file_name.split(".")[-1] #extract the extension from the string
+    if file_extension not in valid_file_formats: #check to make sure program can handle the extension
          print("Cannot handle that type of file")
          return
-
+    
     match file_extension:
         case "csv":
-            print("csv")
+            df = pd.read_csv(file_name)
+            return df
         case "json":
-            print("json")
+            df = pd.read_json(file_name)
+            return df
         case "db":
-            print("db")
+            try:
+                conn = sqlite3.connect(file_name)
+                df = pd.read_sql(f'SELECT * FROM {kwargs["table_name"]}',conn)
+                return df
+            except KeyError:
+                print("Please add the table name")
+
+            return df
         case "xlsx":
-            print("xlsx")
+            df = pd.read_excel(file_name)
+            return df
+        
     
        
-def read_json(file_name,str):
-    read_j = pd.read_json(file_name)
-    return read_j 
+
+
 
 def main():
-    read_file("file.json")
-    read_file("fila.csv")
-    read_file("file.txt")
+    df = read_file("./Data/noisy_data.db",table_name = "noisy_table")
+    df = read_file("./Data/noisy_data.csv")
+    #print(df.head())
+    df = read_file("./Data/noisy_data.json")
+    #print(df.head())
+    df = read_file("./Data/api_noisy_data.json")
+    print(df.head)
+    df = read_file("./Data/noisy_data.xlsx")
+
+
 
 
 
