@@ -1,5 +1,6 @@
 from File_imports import read_file
 from Data_Preprocessing import merge_files_and_format
+from matplotlib import pyplot as plt
 
 def main():
     df1 = read_file("./Data/noisy_data.db",table_name = "noisy_table")
@@ -10,6 +11,9 @@ def main():
 
     df_list = [df1,df2,df3,df4,df5]
     df = merge_files_and_format(df_list)
+    print(df.columns)
+    df.plot.bar("City","Salary")
+    plt.show()
 
 
 
