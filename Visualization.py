@@ -65,7 +65,7 @@ def merge_all_files():
     df3 = read_file("./Data/noisy_data.json")
     #clarify column types
     df3["Salary"].replace("N/A",np.nan,inplace=True)
-    df3["Salary"] = df3["Salary"].astype('Float64')
+    df3["Salary"] = df3["Salary"].astype('float64')
     df3["City"] = df3["City"].astype("string")
     df3["Name"] = df3["Name"].astype("string")
     
@@ -73,25 +73,26 @@ def merge_all_files():
     df3["JoinDate"] = pd.to_datetime(df3["JoinDate"])
 
 
+
     df3.set_index("ID")
     dfr = pd.merge(dfr,df3,how='outer',on=None)    
-    print("hello")
-    print("df3 ",dfr)
+
 
 
    
-    print(dfr.dtypes)
-    print(dfr)
+    # print(dfr.dtypes)
     dfr = dfr.drop_duplicates()
-    print(dfr.loc[dfr.duplicated(subset="ID")])
-    print(dfr.loc[dfr["ID"] == 84])
-    print(dfr.iloc[83])
-    print(dfr.iloc[3078])
-    print(dfr.iloc[83].compare(dfr.iloc[83]))
-
+    # print(dfr.loc[dfr.duplicated(subset="ID")])
+    # print(dfr.loc[dfr["ID"] == 84])
+    # print(dfr.iloc[83])
+    # print(dfr.iloc[3078])
+    # print(dfr.iloc[83].compare(dfr.iloc[83]))
+    print("Data")
+    print(dfr)
+    print(dfr.dtypes)
     #Deal with duplicates
     dfr = dfr.drop_duplicates(keep="first") #We merge on ID because it's non-repeatable 
-    #print(dfr)
+    
     return dfr
 
 
