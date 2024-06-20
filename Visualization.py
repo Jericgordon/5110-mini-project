@@ -4,22 +4,49 @@ import pandas as pd
 import numpy as np
 
 
+"""
+When Dataframes are not strictly formatted, it becomes increasingly difficult for Pandas to accurately Join
+Dataframes. As such, enforcing rigid typeing leads to fewer, and easier to detect duplicates. The type
+formatting is as follows:
 
-#returns a DF that is formated in the documented format
+ID                   int64
+Name        string[python]
+Age                float64
+City        string[python]
+Salary             float64
+JoinDate    datetime64[ns]
+
+Parameters: 
+df -> Pandas Dataframe
+
+Returns
+-> Single formatted pandas dataframe
+
+"""
 def format_df(df):
-    df["Salary"].replace("N/A",np.nan,inplace=True)
+    df["Salary"] = df["Salary"].replace("N/A",np.nan)
     df["Salary"] = df["Salary"].astype('float64')
     df["City"] = df["City"].astype("string")
     df["City"] = df["City"].fillna("")
     df["Name"] = df["Name"].astype("string")
-    df["JoinDate"].replace("unknown",np.nan,inplace=True)
+    df["JoinDate"] = df["JoinDate"].replace("unknown","")
     df["JoinDate"] = pd.to_datetime(df["JoinDate"])
     df.set_index("ID")
     return df
     
 
 
-#Handles the merging of all data
+"""
+Parameters
+List_of_DF  -> List of all desired dataframes to concatinate
+
+Returns
+Singer merge Dataframe
+
+
+This function formats, and then merges all Dataframes passed to it.
+"""
+
 def merge_files_and_format(list_of_DF):
     #Define a return DF
     rdf = format_df(list_of_DF[0]) 
@@ -45,8 +72,10 @@ def main():
 
     df_list = [df1,df2,df3,df4,df5]
     df = merge_files_and_format(df_list)
-    print(df.loc[df.duplicated("ID")])
-    print(df)
+    #cldf.bar(city,)
+    plt.show()
+
+
     #print(df.columns)
     #groupby = df.groupby('ID')
     #print(groupby.aggregate(agg_func))
