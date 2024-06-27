@@ -50,13 +50,8 @@ def merge_files_and_format(list_of_DF):
     rdf = format_df(list_of_DF[0]) 
 
     #Handle the first one so that that DF is populated
-<<<<<<< HEAD
-    for index in range(len(list_of_DF),3): #Format and Join DF to the return DF
-        df = format_df(list_of_DF[index+1])
-=======
     for index in range(len(list_of_DF) - 1): #Format and Join DF to the return DF
         df = format_df(list_of_DF[index + 1])
->>>>>>> 9348ccdcbe2774f83d19385a61a2454ed311c04e
         rdf = pd.merge(rdf,df,how='outer',on=None)   
 
     #Drop any complete Duplicates
