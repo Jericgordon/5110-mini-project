@@ -5,7 +5,7 @@ import pandas as pd #for everything else
 
 
 # auto detects filetype and returns a pandas df converted of that file
-def read_file(file_name:str,**kwargs):
+def read_file(file_name:str,file,**kwargs):
     valid_file_formats = ["json","csv","xlsx","db"]
     file_extension = file_name.split(".")[-1] #extract the extension from the string
     if file_extension not in valid_file_formats: #check to make sure program can handle the extension
@@ -14,14 +14,14 @@ def read_file(file_name:str,**kwargs):
     
     match file_extension:
         case "csv":
-            df = pd.read_csv(file_name)
+            df = pd.read_csv(file)
             return df
         case "json":
-            df = pd.read_json(file_name)
+            df = pd.read_json(file)
             return df
         case "db":
             try:
-                conn = sql.connect(file_name)
+                conn = sql.connect(file)
                 df = pd.read_sql(f'SELECT * FROM {kwargs["table_name"]}',conn)
                 return df
             except KeyError:
@@ -29,7 +29,7 @@ def read_file(file_name:str,**kwargs):
 
             return df
         case "xlsx":
-            df = pd.read_excel(file_name)
+            df = pd.read_excel(file)
             return df
         
     
